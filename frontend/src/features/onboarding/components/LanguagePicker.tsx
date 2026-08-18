@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image } from 'expo-image';
 
 import type { Language } from '../api/onboarding-api/types';
 
@@ -8,6 +9,18 @@ interface LanguagePickerProps {
   languages: Language[];
   selected: string | null;
   onSelect: (code: string) => void;
+}
+
+function getCountryCode(emoji: string) {
+  if (!emoji) return 'us';
+  const chars = Array.from(emoji);
+  if (chars.length < 2) return 'us';
+  const c1 = chars[0].codePointAt(0);
+  const c2 = chars[1].codePointAt(0);
+  if (c1 && c2 && c1 >= 0x1f1e6 && c2 >= 0x1f1e6) {
+    return String.fromCharCode(c1 - 127397, c2 - 127397).toLowerCase();
+  }
+  return 'us';
 }
 
 export function LanguagePicker({ languages, selected, onSelect }: LanguagePickerProps) {
@@ -46,7 +59,11 @@ export function LanguagePicker({ languages, selected, onSelect }: LanguagePicker
                 isSelected ? 'bg-blue-50 border border-blue-300' : 'bg-white border border-slate-100'
               }`}
             >
-              <Text className="text-2xl mr-3">{item.flagEmoji}</Text>
+              <Image
+                source={{ uri: `https://flagcdn.com/w40/${getCountryCode(item.flagEmoji)}.png` }}
+                style={{ width: 28, height: 20, marginRight: 12, borderRadius: 2 }}
+                contentFit="cover"
+              />
               <Text
                 className={`text-base ${isSelected ? 'text-blue-700 font-semibold' : 'text-slate-800'}`}
               >
