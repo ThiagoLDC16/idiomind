@@ -1,4 +1,4 @@
-import { Alert, Pressable, Text } from 'react-native';
+import { Alert, Platform, Pressable, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,19 +12,31 @@ export const LogoutButton = () => {
   const logout = authStore((state) => state.logout);
   const refreshToken = authStore((state) => state.refreshToken);
 
+  const executeLogout = async () => {
+    if (refreshToken) {
+      await authApi.logout({ refreshToken }).catch(() => {});
+    }
+    logout();
+    router.replace('/(auth)/login');
+  };
+
   const handlePress = () => {
+    if (Platform.OS === 'web') {
+      const confirmLogout = window.confirm(
+        `${t('logout.dialog.title')}\n\n${t('logout.dialog.message')}`
+      );
+      if (confirmLogout) {
+        executeLogout();
+      }
+      return;
+    }
+
     Alert.alert(t('logout.dialog.title'), t('logout.dialog.message'), [
       { text: t('logout.dialog.cancel'), style: 'cancel' },
       {
         text: t('logout.dialog.confirm'),
         style: 'destructive',
-        onPress: async () => {
-          if (refreshToken) {
-            await authApi.logout({ refreshToken }).catch(() => {});
-          }
-          logout();
-          router.replace('/(auth)/login');
-        },
+        onPress: executeLogout,
       },
     ]);
   };
