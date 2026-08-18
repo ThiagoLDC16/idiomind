@@ -1,6 +1,7 @@
 import '@/i18n';
 import '../global.css';
 
+import { PlusJakartaSans_700Bold, useFonts } from '@expo-google-fonts/plus-jakarta-sans';
 import { Slot } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
@@ -13,6 +14,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const isReady = authStore((state) => state.isReady);
+  const [fontsLoaded] = useFonts({ PlusJakartaSans_700Bold });
 
   useEffect(() => {
     const restoreSession = async () => {
@@ -41,12 +43,12 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
-    if (isReady) {
+    if (isReady && fontsLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [isReady]);
+  }, [isReady, fontsLoaded]);
 
-  if (!isReady) {
+  if (!isReady || !fontsLoaded) {
     return null;
   }
 
