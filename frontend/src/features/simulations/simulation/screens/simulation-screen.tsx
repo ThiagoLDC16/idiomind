@@ -47,25 +47,36 @@ export default function SimulationScreen() {
     useSimulation(simulationId);
   const flatListRef = useRef<FlatList<SimulationMessage>>(null);
 
+  const confirmFinish = async () => {
+    await finishSimulation();
+    router.replace({
+      pathname: '/simulation/completed/[simulationId]',
+      params: { simulationId },
+    });
+  };
+
   const handleFinish = () => {
-    Alert.alert(
-      t('simulation.finishConfirm.title'),
-      t('simulation.finishConfirm.message'),
-      [
-        { text: t('simulation.finishConfirm.cancel'), style: 'cancel' },
-        {
-          text: t('simulation.finishConfirm.confirm'),
-          style: 'destructive',
-          onPress: async () => {
-            await finishSimulation();
-            router.replace({
-              pathname: '/simulation/completed/[simulationId]',
-              params: { simulationId },
-            });
+    if (Platform.OS === 'web') {
+      const confirmed = window.confirm(
+        `${t('simulation.finishConfirm.title')}\n${t('simulation.finishConfirm.message')}`,
+      );
+      if (confirmed) {
+        confirmFinish();
+      }
+    } else {
+      Alert.alert(
+        t('simulation.finishConfirm.title'),
+        t('simulation.finishConfirm.message'),
+        [
+          { text: t('simulation.finishConfirm.cancel'), style: 'cancel' },
+          {
+            text: t('simulation.finishConfirm.confirm'),
+            style: 'destructive',
+            onPress: confirmFinish,
           },
-        },
-      ],
-    );
+        ],
+      );
+    }
   };
 
   const handleSend = (content: string) => {
