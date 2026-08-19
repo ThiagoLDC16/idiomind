@@ -11,6 +11,7 @@ export default function OnboardingLayout() {
   return (
     <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: 'white' } }}>
       <Stack.Screen name="setup" />
+      <Stack.Screen name="language-coming-soon" />
     </Stack>
   );
 }

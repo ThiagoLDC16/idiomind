@@ -46,9 +46,11 @@ export function ChatInput({ onSend, isSending, suggestions = [] }: ChatInputProp
         className="flex-row items-end gap-2 bg-md-surface-container-low rounded-2xl p-2 border-2 border-md-surface-variant"
         style={{ borderCurve: 'continuous' }}
       >
+        {/* Futura implementação: gravação de áudio
         <Pressable className="p-3 rounded-full active:bg-md-secondary-fixed/30">
           <MaterialIcons name="mic" size={24} color="#00677f" />
         </Pressable>
+        */}
 
         <TextInput
           className="flex-1 text-base text-md-on-surface py-3"

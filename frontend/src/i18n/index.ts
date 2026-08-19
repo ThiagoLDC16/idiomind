@@ -39,6 +39,11 @@ const resources = {
       'setup.next': 'Next',
       'setup.done': 'Finish',
       'setup.searchLanguage': 'Search language...',
+      'comingSoon.title': '{{language}} is coming! 🚀',
+      'comingSoon.detail':
+        "We're calibrating our AI scenarios in {{language}}. We've registered your vote to prioritize the launch!",
+      'comingSoon.hint': 'While we finish, how about experiencing our simulation dynamics in English?',
+      'comingSoon.cta': 'Continue and try in English',
       'categories.title': 'Categories',
       'categories.heading': 'Choose a Category',
       'categories.subtitle': 'Practice real-life conversations',
@@ -104,6 +109,11 @@ const resources = {
       'setup.next': 'Próximo',
       'setup.done': 'Concluir',
       'setup.searchLanguage': 'Buscar idioma...',
+      'comingSoon.title': '{{language}} está chegando! 🚀',
+      'comingSoon.detail':
+        'Estamos calibrando os cenários de IA em {{language}}. Registramos o seu voto para priorizar o lançamento!',
+      'comingSoon.hint': 'Enquanto finalizamos, que tal experimentar a dinâmica das nossas simulações em Inglês?',
+      'comingSoon.cta': 'Continuar e testar em Inglês',
       'categories.title': 'Categorias',
       'categories.heading': 'Escolha uma Categoria',
       'categories.subtitle': 'Pratique conversas da vida real',

@@ -65,7 +65,7 @@ export function LanguagePicker({ languages, selected, onSelect }: LanguagePicker
                 contentFit="cover"
               />
               <Text
-                className={`text-base ${isSelected ? 'text-blue-700 font-semibold' : 'text-slate-800'}`}
+                className={`flex-1 text-base ${isSelected ? 'text-blue-700 font-semibold' : 'text-slate-800'}`}
               >
                 {item.name}
               </Text>

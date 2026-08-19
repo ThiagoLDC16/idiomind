@@ -6,6 +6,7 @@ import { Text, View } from 'react-native';
 
 import { onboardingApi } from '@/features/onboarding/api/onboarding-api';
 import type { Language } from '@/features/onboarding/api/onboarding-api/types';
+import { SUPPORTED_LEARNING_LANGUAGE_CODES } from '@/features/onboarding/constants';
 import { LanguagePicker } from '@/features/onboarding/components/LanguagePicker';
 import { authStore } from '@/features/auth/store/auth-store';
 import { Button } from '@/shared/components/Button';
@@ -47,6 +48,15 @@ export default function SetupScreen() {
 
     if (!nativeLanguage || !learningLanguage) return;
 
+    if (!SUPPORTED_LEARNING_LANGUAGE_CODES.includes(learningLanguage as typeof SUPPORTED_LEARNING_LANGUAGE_CODES[number])) {
+      const language = languages.find((l) => l.code === learningLanguage);
+      router.push({
+        pathname: '/(onboarding)/language-coming-soon',
+        params: { languageName: language?.name ?? learningLanguage, nativeLanguage },
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       await onboardingApi.createProfile({ nativeLanguage, learningLanguage });
@@ -55,8 +65,8 @@ export default function SetupScreen() {
         authStore.getState().setUser({ ...user, hasProfile: true });
       }
       router.replace('/(app)/');
-    } catch {
-      // silent — routing guard will keep user here if needed
+    } catch (e) {
+      console.error('[setup] createProfile failed:', e);
     } finally {
       setIsSubmitting(false);
     }
