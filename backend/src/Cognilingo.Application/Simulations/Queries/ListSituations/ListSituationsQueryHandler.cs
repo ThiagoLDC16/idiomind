@@ -2,14 +2,29 @@ namespace Cognilingo.Application.Simulations.Queries.ListSituations;
 
 public sealed class ListSituationsQueryHandler(
     IAppDbContext context
-) : IRequestHandler<ListSituationsQuery, Response<IEnumerable<ListSituationDto>>>
+) : IRequestHandler<ListSituationsQuery, Response<ListSituationsDto>>
 {
-    public async Task<Response<IEnumerable<ListSituationDto>>> Handle(
+    public async Task<Response<ListSituationsDto>> Handle(
         ListSituationsQuery request,
         CancellationToken cancellationToken
     )
     {
         var languageCode = request.LanguageCode;
+
+        var category = await context.Categories
+            .AsNoTracking()
+            .Where(c => c.Id == request.CategoryId)
+            .Select(c => new
+            {
+                Name = c.Translations
+                    .Where(t => t.LanguageCode == languageCode)
+                    .Select(t => t.Name)
+                    .FirstOrDefault()!
+            })
+            .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+
+        if (category is null)
+            return new NotFoundResponse<ListSituationsDto>(SimulationMessages.CategoryNotFound);
 
         var situations = await context.Situations
             .AsNoTracking()
@@ -27,8 +42,12 @@ public sealed class ListSituationsQueryHandler(
                     .FirstOrDefault()!,
                 LanguageCode = languageCode
             })
-            .ToListAsync(cancellationToken: cancellationToken);
+            .ToListAsync(cancellationToken);
 
-        return new OkResponse<IEnumerable<ListSituationDto>>(situations);
+        return new OkResponse<ListSituationsDto>(new ListSituationsDto
+        {
+            Name = category.Name,
+            Situations = situations
+        });
     }
 }

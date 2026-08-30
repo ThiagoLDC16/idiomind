@@ -8,11 +8,11 @@ public class SimulationsController(IMediator _mediator) : BaseController
     public async Task<IActionResult> ListCategories([FromQuery] ListCategoriesQuery query)
         => MapResponse(await _mediator.Send(query));
 
-    [HttpGet("categories/{categoryId:guid}/situations")]
+    [HttpGet("categories/{categoryId:guid}")]
     public async Task<IActionResult> ListSituations(Guid categoryId, [FromQuery] string languageCode)
         => MapResponse(await _mediator.Send(new ListSituationsQuery(categoryId, languageCode)));
 
-    [HttpGet("situations/{situationId:guid}/variants")]
+    [HttpGet("situations/{situationId:guid}")]
     public async Task<IActionResult> ListSituationVariants(Guid situationId, [FromQuery] string languageCode)
         => MapResponse(await _mediator.Send(new ListSituationVariantsQuery(situationId, languageCode)));
 
@@ -21,8 +21,8 @@ public class SimulationsController(IMediator _mediator) : BaseController
         => MapResponse(await _mediator.Send(command));
 
     [HttpGet("{id:guid}/messages")]
-    public async Task<IActionResult> ListSimulationMessages(Guid id)
-        => MapResponse(await _mediator.Send(new ListSimulationMessagesQuery(id)));
+    public async Task<IActionResult> ListSimulationMessages(Guid id, [FromQuery] string languageCode)
+        => MapResponse(await _mediator.Send(new ListSimulationMessagesQuery(id, languageCode)));
 
     [HttpPost("{id:guid}/messages")]
     public async Task<IActionResult> SendMessage(Guid id, [FromBody] SendMessagePayload payload)

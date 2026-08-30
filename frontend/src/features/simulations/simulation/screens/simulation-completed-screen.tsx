@@ -1,9 +1,11 @@
+import * as Localization from 'expo-localization';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, View } from 'react-native';
 
 import { simulationsApi } from '@/features/simulations/api/simulations-api';
 import type { SimulationMessage } from '@/features/simulations/api/simulations-api/types';
+
 import { CompletedActions } from '../components/simulation-completed/completed-actions';
 import { CompletedHeader } from '../components/simulation-completed/completed-header';
 import { FeedbackDetails } from '../components/simulation-completed/feedback-details';
@@ -32,10 +34,7 @@ function SimulationCompletedContent({ messages }: { messages: SimulationMessage[
       <CompletedHeader isPerfect={isPerfect} />
 
       <View className="gap-6 flex-1">
-        <StatsRow
-          correctCount={stats.correctCount}
-          withFeedbackCount={stats.withFeedbackCount}
-        />
+        <StatsRow correctCount={stats.correctCount} withFeedbackCount={stats.withFeedbackCount} />
 
         <ImprovementChips categories={stats.categories} />
 
@@ -56,8 +55,10 @@ export default function SimulationCompletedScreen() {
 
   useEffect(() => {
     let cancelled = false;
-    simulationsApi.listMessages(simulationId).then((data) => {
-      if (!cancelled) setMessages(data);
+    const languageCode = Localization.getLocales()[0]?.languageTag ?? 'en-US';
+
+    simulationsApi.getSimulationMessages(simulationId, languageCode).then((simulation) => {
+      if (!cancelled) setMessages(simulation.messages);
     });
     return () => {
       cancelled = true;

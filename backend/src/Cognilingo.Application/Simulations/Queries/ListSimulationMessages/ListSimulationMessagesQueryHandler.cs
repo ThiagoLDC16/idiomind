@@ -2,35 +2,45 @@ namespace Cognilingo.Application.Simulations.Queries.ListSimulationMessages;
 
 public sealed class ListSimulationMessagesQueryHandler(
     IAppDbContext context
-) : IRequestHandler<ListSimulationMessagesQuery, Response<IEnumerable<ListSimulationMessageDto>>>
+) : IRequestHandler<ListSimulationMessagesQuery, Response<ListSimulationMessagesDto>>
 {
-    public async Task<Response<IEnumerable<ListSimulationMessageDto>>> Handle(
+    public async Task<Response<ListSimulationMessagesDto>> Handle(
         ListSimulationMessagesQuery request,
         CancellationToken cancellationToken
     )
     {
-        var messages = await context.Simulations
+        var simulation = await context.Simulations
             .AsNoTracking()
             .Where(s => s.Id == request.SimulationId)
-            .SelectMany(s => s.Messages)
-            .OrderBy(m => m.CreatedAt)
-            .Select(m => new ListSimulationMessageDto
+            .Select(s => new ListSimulationMessagesDto
             {
-                Id = m.Id,
-                Sender = m.Sender,
-                Content = m.Content,
-                TranslatedContent = m.TranslatedContent,
-                Feedback = m.Feedback != null
-                    ? new ListSimulationMessageFeedbackDto
+                Name = s.Variant.Translations
+                    .Where(t => t.LanguageCode == request.LanguageCode)
+                    .Select(t => t.Name)
+                    .FirstOrDefault()!,
+                LearningLanguage = s.Variant.LearningLanguage,
+                Messages = s.Messages
+                    .OrderBy(m => m.CreatedAt)
+                    .Select(m => new ListSimulationMessageDto
                     {
-                        Classification = m.Feedback.Classification,
-                        Explanation = m.Feedback.Explanation,
-                        Correction = m.Feedback.Correction
-                    }
-                    : null
+                        Id = m.Id,
+                        Sender = m.Sender,
+                        Content = m.Content,
+                        TranslatedContent = m.TranslatedContent,
+                        Feedback = m.Feedback != null
+                            ? new ListSimulationMessageFeedbackDto
+                            {
+                                Classification = m.Feedback.Classification,
+                                Explanation = m.Feedback.Explanation,
+                                Correction = m.Feedback.Correction
+                            }
+                            : null
+                    })
             })
-            .ToListAsync(cancellationToken);
+            .FirstOrDefaultAsync(cancellationToken);
 
-        return new OkResponse<IEnumerable<ListSimulationMessageDto>>(messages);
+        return simulation is null
+            ? new NotFoundResponse<ListSimulationMessagesDto>(SimulationMessages.SimulationNotFound)
+            : new OkResponse<ListSimulationMessagesDto>(simulation);
     }
 }

@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import type { SimulationMessage } from '@/features/simulations/api/simulations-api/types';
+
 import { ChatInput } from '../components/chat-input';
 import { ChatMessageBubble } from '../components/chat-message-bubble';
 import { SimulationStartedBadge } from '../components/simulation-started-badge';
@@ -29,22 +30,28 @@ function FinishButton({ onPress, disabled }: { onPress: () => void; disabled: bo
       className="bg-md-primary-fixed/50 px-4 py-2 rounded-full active:scale-[0.98]"
       style={{ opacity: disabled ? 0.5 : 1 }}
     >
-      <Text className="text-sm font-medium text-md-primary">
-        {t('simulation.finish')}
-      </Text>
+      <Text className="text-sm font-medium text-md-primary">{t('simulation.finish')}</Text>
     </Pressable>
   );
 }
 
 export default function SimulationScreen() {
-  const { simulationId, name } = useLocalSearchParams<{
-    simulationId: string;
-    name: string;
-  }>();
+  const { simulationId } = useLocalSearchParams<{ simulationId: string }>();
   const { t } = useTranslation();
   const router = useRouter();
-  const { messages, isLoading, isSending, isFinishing, translatingMessageIds, error, sendMessage, translateMessage, finishSimulation } =
-    useSimulation(simulationId);
+  const {
+    name,
+    learningLanguage,
+    messages,
+    isLoading,
+    isSending,
+    isFinishing,
+    translatingMessageIds,
+    error,
+    sendMessage,
+    translateMessage,
+    finishSimulation,
+  } = useSimulation(simulationId);
   const flatListRef = useRef<FlatList<SimulationMessage>>(null);
 
   const confirmFinish = async () => {
@@ -64,18 +71,14 @@ export default function SimulationScreen() {
         confirmFinish();
       }
     } else {
-      Alert.alert(
-        t('simulation.finishConfirm.title'),
-        t('simulation.finishConfirm.message'),
-        [
-          { text: t('simulation.finishConfirm.cancel'), style: 'cancel' },
-          {
-            text: t('simulation.finishConfirm.confirm'),
-            style: 'destructive',
-            onPress: confirmFinish,
-          },
-        ],
-      );
+      Alert.alert(t('simulation.finishConfirm.title'), t('simulation.finishConfirm.message'), [
+        { text: t('simulation.finishConfirm.cancel'), style: 'cancel' },
+        {
+          text: t('simulation.finishConfirm.confirm'),
+          style: 'destructive',
+          onPress: confirmFinish,
+        },
+      ]);
     }
   };
 
@@ -138,12 +141,12 @@ export default function SimulationScreen() {
         data={messages}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-            <ChatMessageBubble
-              message={item}
-              onTranslate={translateMessage}
-              isTranslating={translatingMessageIds.has(item.id)}
-            />
-          )}
+          <ChatMessageBubble
+            message={item}
+            onTranslate={translateMessage}
+            isTranslating={translatingMessageIds.has(item.id)}
+          />
+        )}
         contentContainerClassName="px-6 py-4 gap-6"
         ListHeaderComponent={<SimulationStartedBadge />}
         ListFooterComponent={isSending ? <TypingIndicator /> : null}
@@ -152,7 +155,11 @@ export default function SimulationScreen() {
         showsVerticalScrollIndicator={false}
       />
 
-      <ChatInput onSend={handleSend} isSending={isSending || isFinishing} />
+      <ChatInput
+        onSend={handleSend}
+        isSending={isSending || isFinishing}
+        learningLanguage={learningLanguage}
+      />
     </KeyboardAvoidingView>
   );
 }

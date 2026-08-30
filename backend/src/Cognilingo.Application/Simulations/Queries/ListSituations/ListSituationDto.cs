@@ -1,5 +1,11 @@
 namespace Cognilingo.Application.Simulations.Queries.ListSituations;
 
+public sealed record ListSituationsDto
+{
+    public required string Name { get; init; }
+    public required IEnumerable<ListSituationDto> Situations { get; init; }
+}
+
 public sealed record ListSituationDto
 {
     public required Guid Id { get; init; }

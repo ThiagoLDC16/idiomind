@@ -3,22 +3,20 @@ import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 
 import type { Situation } from '@/features/simulations/api/simulations-api/types';
-import { useSituations } from '../hooks/use-situations';
+
 import { SituationList } from '../components/situation-list';
+import { useSituations } from '../hooks/use-situations';
 
 export default function SituationsScreen() {
-  const { categoryId, name } = useLocalSearchParams<{
-    categoryId: string;
-    name: string;
-  }>();
+  const { categoryId } = useLocalSearchParams<{ categoryId: string }>();
   const { t } = useTranslation();
   const router = useRouter();
-  const { situations, isLoading, error } = useSituations(categoryId);
+  const { name, situations, isLoading, error } = useSituations(categoryId);
 
   const handleSituationPress = (situation: Situation) => {
     router.push({
       pathname: '/(app)/variants/[situationId]',
-      params: { situationId: situation.id, name: situation.name },
+      params: { situationId: situation.id },
     });
   };
 
@@ -54,10 +52,7 @@ export default function SituationsScreen() {
           headerBackTitle: '',
         }}
       />
-      <SituationList
-        situations={situations}
-        onSituationPress={handleSituationPress}
-      />
+      <SituationList situations={situations} onSituationPress={handleSituationPress} />
     </ScrollView>
   );
 }

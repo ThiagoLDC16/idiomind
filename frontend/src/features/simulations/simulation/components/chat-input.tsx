@@ -1,7 +1,7 @@
+import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, TextInput, View } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Platform, Pressable, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { SuggestionChips } from './suggestion-chips';
@@ -9,13 +9,23 @@ import { SuggestionChips } from './suggestion-chips';
 interface ChatInputProps {
   onSend: (content: string) => void;
   isSending: boolean;
+  learningLanguage: string;
   suggestions?: string[];
 }
 
-export function ChatInput({ onSend, isSending, suggestions = [] }: ChatInputProps) {
+export function ChatInput({
+  onSend,
+  isSending,
+  learningLanguage,
+  suggestions = [],
+}: ChatInputProps) {
   const [text, setText] = useState('');
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
+  const languageProps =
+    Platform.OS === 'web'
+      ? { lang: learningLanguage }
+      : { accessibilityLanguage: learningLanguage };
 
   const handleSend = () => {
     const trimmed = text.trim();
@@ -37,10 +47,7 @@ export function ChatInput({ onSend, isSending, suggestions = [] }: ChatInputProp
         boxShadow: '0 -10px 20px rgba(93, 95, 239, 0.03)',
       }}
     >
-      <SuggestionChips
-        suggestions={suggestions}
-        onSelect={handleSuggestionSelect}
-      />
+      <SuggestionChips suggestions={suggestions} onSelect={handleSuggestionSelect} />
 
       <View
         className="flex-row items-end gap-2 bg-md-surface-container-low rounded-2xl p-2 border-2 border-md-surface-variant"
@@ -53,12 +60,14 @@ export function ChatInput({ onSend, isSending, suggestions = [] }: ChatInputProp
         */}
 
         <TextInput
+          {...languageProps}
           className="flex-1 text-base text-md-on-surface py-3"
           placeholder={t('simulation.inputPlaceholder')}
           placeholderTextColor="#767586"
           value={text}
           onChangeText={setText}
           multiline
+          spellCheck
           maxLength={500}
           style={{ maxHeight: 128 }}
           editable={!isSending}

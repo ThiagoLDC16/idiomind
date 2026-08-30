@@ -1,9 +1,15 @@
+import * as Localization from 'expo-localization';
 import { useCallback, useEffect, useState } from 'react';
 
 import { simulationsApi } from '@/features/simulations/api/simulations-api';
-import { MessageSender, type SimulationMessage } from '@/features/simulations/api/simulations-api/types';
+import {
+  MessageSender,
+  type SimulationMessage,
+} from '@/features/simulations/api/simulations-api/types';
 
 interface UseSimulationState {
+  name: string;
+  learningLanguage: string;
   messages: SimulationMessage[];
   isLoading: boolean;
   isSending: boolean;
@@ -16,6 +22,8 @@ let optimisticIdCounter = 0;
 
 export function useSimulation(simulationId: string) {
   const [state, setState] = useState<UseSimulationState>({
+    name: '',
+    learningLanguage: '',
     messages: [],
     isLoading: true,
     isSending: false,
@@ -24,19 +32,46 @@ export function useSimulation(simulationId: string) {
     error: null,
   });
 
+  const languageCode = Localization.getLocales()[0]?.languageTag ?? 'en-US';
+
   useEffect(() => {
     let cancelled = false;
 
     const fetchMessages = async () => {
-      setState((prev) => ({ ...prev, isLoading: true, error: null }));
+      setState((prev) => ({
+        ...prev,
+        name: '',
+        learningLanguage: '',
+        messages: [],
+        isLoading: true,
+        error: null,
+      }));
       try {
-        const messages = await simulationsApi.listMessages(simulationId);
+        const simulation = await simulationsApi.getSimulationMessages(simulationId, languageCode);
         if (!cancelled) {
-          setState({ messages, isLoading: false, isSending: false, isFinishing: false, translatingMessageIds: new Set(), error: null });
+          setState({
+            name: simulation.name,
+            learningLanguage: simulation.learningLanguage,
+            messages: simulation.messages,
+            isLoading: false,
+            isSending: false,
+            isFinishing: false,
+            translatingMessageIds: new Set(),
+            error: null,
+          });
         }
       } catch {
         if (!cancelled) {
-          setState({ messages: [], isLoading: false, isSending: false, isFinishing: false, translatingMessageIds: new Set(), error: 'internalError' });
+          setState({
+            name: '',
+            learningLanguage: '',
+            messages: [],
+            isLoading: false,
+            isSending: false,
+            isFinishing: false,
+            translatingMessageIds: new Set(),
+            error: 'internalError',
+          });
         }
       }
     };
@@ -45,7 +80,7 @@ export function useSimulation(simulationId: string) {
     return () => {
       cancelled = true;
     };
-  }, [simulationId]);
+  }, [simulationId, languageCode]);
 
   const sendMessage = useCallback(
     async (content: string) => {
@@ -69,10 +104,7 @@ export function useSimulation(simulationId: string) {
         setState((prev) => ({
           ...prev,
           // Replace the optimistic message with the real ones from the API
-          messages: [
-            ...prev.messages.filter((m) => m.id !== optimisticMessage.id),
-            ...newMessages,
-          ],
+          messages: [...prev.messages.filter((m) => m.id !== optimisticMessage.id), ...newMessages],
           isSending: false,
         }));
       } catch {
@@ -95,18 +127,25 @@ export function useSimulation(simulationId: string) {
         translatingMessageIds: new Set([...prev.translatingMessageIds, messageId]),
       }));
       try {
-        const { translatedContent } = await simulationsApi.translateMessage(simulationId, messageId);
+        const { translatedContent } = await simulationsApi.translateMessage(
+          simulationId,
+          messageId,
+        );
         setState((prev) => ({
           ...prev,
           messages: prev.messages.map((m) =>
             m.id === messageId ? { ...m, translatedContent } : m,
           ),
-          translatingMessageIds: new Set([...prev.translatingMessageIds].filter((id) => id !== messageId)),
+          translatingMessageIds: new Set(
+            [...prev.translatingMessageIds].filter((id) => id !== messageId),
+          ),
         }));
       } catch {
         setState((prev) => ({
           ...prev,
-          translatingMessageIds: new Set([...prev.translatingMessageIds].filter((id) => id !== messageId)),
+          translatingMessageIds: new Set(
+            [...prev.translatingMessageIds].filter((id) => id !== messageId),
+          ),
         }));
       }
     },

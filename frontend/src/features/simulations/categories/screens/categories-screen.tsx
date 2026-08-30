@@ -1,16 +1,12 @@
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import {
-  ActivityIndicator,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
+import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 
 import type { Category } from '@/features/simulations/api/simulations-api/types';
-import { useCategories } from '../hooks/use-categories';
+
 import { CategoriesHeader } from '../components/categories-header';
 import { CategoryGrid } from '../components/category-grid';
+import { useCategories } from '../hooks/use-categories';
 
 export default function CategoriesScreen() {
   const { t } = useTranslation();
@@ -20,7 +16,7 @@ export default function CategoriesScreen() {
   const handleCategoryPress = (category: Category) => {
     router.push({
       pathname: '/(app)/situations/[categoryId]',
-      params: { categoryId: category.id, name: category.name },
+      params: { categoryId: category.id },
     });
   };
 

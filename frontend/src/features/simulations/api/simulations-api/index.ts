@@ -1,6 +1,13 @@
 import { apiClient } from '@/shared/api/clients/api-client';
 
-import type { Category, SimulationMessage, Situation, TranslateMessageResponse, Variant } from './types';
+import type {
+  Category,
+  CategoryDetails,
+  SimulationDetails,
+  SimulationMessage,
+  SituationDetails,
+  TranslateMessageResponse,
+} from './types';
 
 export const simulationsApi = {
   async listCategories(languageCode: string) {
@@ -10,17 +17,17 @@ export const simulationsApi = {
     return response.data;
   },
 
-  async listSituations(categoryId: string, languageCode: string) {
-    const response = await apiClient.get<Situation[]>(
-      `/api/simulations/categories/${categoryId}/situations`,
+  async getCategory(categoryId: string, languageCode: string) {
+    const response = await apiClient.get<CategoryDetails>(
+      `/api/simulations/categories/${categoryId}`,
       { params: { languageCode } },
     );
     return response.data;
   },
 
-  async listVariants(situationId: string, languageCode: string) {
-    const response = await apiClient.get<Variant[]>(
-      `/api/simulations/situations/${situationId}/variants`,
+  async getSituation(situationId: string, languageCode: string) {
+    const response = await apiClient.get<SituationDetails>(
+      `/api/simulations/situations/${situationId}`,
       { params: { languageCode } },
     );
     return response.data;
@@ -31,9 +38,10 @@ export const simulationsApi = {
     return response.data;
   },
 
-  async listMessages(simulationId: string) {
-    const response = await apiClient.get<SimulationMessage[]>(
+  async getSimulationMessages(simulationId: string, languageCode: string) {
+    const response = await apiClient.get<SimulationDetails>(
       `/api/simulations/${simulationId}/messages`,
+      { params: { languageCode } },
     );
     return response.data;
   },

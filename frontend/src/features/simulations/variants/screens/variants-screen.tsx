@@ -16,7 +16,6 @@ function StartSimulationButton({
 
   return (
     <View className="absolute bottom-0 left-0 right-0 pb-10 pt-8 px-6 bg-md-surface">
-
       <Pressable
         onPress={onPress}
         disabled={isLoading}
@@ -42,21 +41,11 @@ function StartSimulationButton({
 }
 
 export default function VariantsScreen() {
-  const { situationId, name } = useLocalSearchParams<{
-    situationId: string;
-    name: string;
-  }>();
+  const { situationId } = useLocalSearchParams<{ situationId: string }>();
   const { t } = useTranslation();
   const router = useRouter();
-  const {
-    variants,
-    isLoading,
-    error,
-    isStarting,
-    selectedVariant,
-    setSelectedIndex,
-    startSimulation,
-  } = useVariants(situationId);
+  const { name, variants, isLoading, error, isStarting, setSelectedIndex, startSimulation } =
+    useVariants(situationId);
 
   const handleStartSimulation = async () => {
     const simulationId = await startSimulation();
@@ -65,7 +54,6 @@ export default function VariantsScreen() {
         pathname: '/(app)/simulation/[simulationId]',
         params: {
           simulationId,
-          name: selectedVariant?.name ?? name,
         },
       });
     }
@@ -102,16 +90,10 @@ export default function VariantsScreen() {
       </View>
 
       <View className="flex-1 justify-center pb-28">
-        <VariantCarousel
-          variants={variants}
-          onActiveIndexChange={setSelectedIndex}
-        />
+        <VariantCarousel variants={variants} onActiveIndexChange={setSelectedIndex} />
       </View>
 
-      <StartSimulationButton
-        onPress={handleStartSimulation}
-        isLoading={isStarting}
-      />
+      <StartSimulationButton onPress={handleStartSimulation} isLoading={isStarting} />
     </View>
   );
 }

@@ -5,6 +5,7 @@ import { simulationsApi } from '@/features/simulations/api/simulations-api';
 import type { Variant } from '@/features/simulations/api/simulations-api/types';
 
 interface UseVariantsState {
+  name: string;
   variants: Variant[];
   isLoading: boolean;
   error: string | null;
@@ -14,6 +15,7 @@ interface UseVariantsState {
 
 export function useVariants(situationId: string) {
   const [state, setState] = useState<UseVariantsState>({
+    name: '',
     variants: [],
     isLoading: true,
     error: null,
@@ -27,11 +29,24 @@ export function useVariants(situationId: string) {
     let cancelled = false;
 
     const fetchVariants = async () => {
-      setState((prev) => ({ ...prev, isLoading: true, error: null }));
+      setState((prev) => ({
+        ...prev,
+        name: '',
+        variants: [],
+        selectedIndex: 0,
+        isLoading: true,
+        error: null,
+      }));
       try {
-        const variants = await simulationsApi.listVariants(situationId, languageCode);
+        const situation = await simulationsApi.getSituation(situationId, languageCode);
         if (!cancelled) {
-          setState((prev) => ({ ...prev, variants, isLoading: false, error: null }));
+          setState((prev) => ({
+            ...prev,
+            name: situation.name,
+            variants: situation.variants,
+            isLoading: false,
+            error: null,
+          }));
         }
       } catch {
         if (!cancelled) {

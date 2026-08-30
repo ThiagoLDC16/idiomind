@@ -5,6 +5,7 @@ import { simulationsApi } from '@/features/simulations/api/simulations-api';
 import type { Situation } from '@/features/simulations/api/simulations-api/types';
 
 interface UseSituationsState {
+  name: string;
   situations: Situation[];
   isLoading: boolean;
   error: string | null;
@@ -12,6 +13,7 @@ interface UseSituationsState {
 
 export function useSituations(categoryId: string) {
   const [state, setState] = useState<UseSituationsState>({
+    name: '',
     situations: [],
     isLoading: true,
     error: null,
@@ -23,15 +25,20 @@ export function useSituations(categoryId: string) {
     let cancelled = false;
 
     const fetchSituations = async () => {
-      setState((prev) => ({ ...prev, isLoading: true, error: null }));
+      setState({ name: '', situations: [], isLoading: true, error: null });
       try {
-        const situations = await simulationsApi.listSituations(categoryId, languageCode);
+        const category = await simulationsApi.getCategory(categoryId, languageCode);
         if (!cancelled) {
-          setState({ situations, isLoading: false, error: null });
+          setState({
+            name: category.name,
+            situations: category.situations,
+            isLoading: false,
+            error: null,
+          });
         }
       } catch {
         if (!cancelled) {
-          setState({ situations: [], isLoading: false, error: 'internalError' });
+          setState({ name: '', situations: [], isLoading: false, error: 'internalError' });
         }
       }
     };
