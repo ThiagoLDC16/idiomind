@@ -2,6 +2,10 @@ import { Redirect, Stack } from 'expo-router';
 
 import { authStore } from '@/features/auth/store/auth-store';
 
+export const unstable_settings = {
+  anchor: '(main)',
+};
+
 export default function AppLayout() {
   const user = authStore((s) => s.user);
 
