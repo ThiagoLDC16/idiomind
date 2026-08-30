@@ -34,6 +34,7 @@ public sealed class OpenAiMessageFeedbackService : IMessageFeedbackService
                       You are a helpful language learning assistant. 
                       Analyze the last message sent by the user in a conversation in {request.LanguageCode}.
                       Provide feedback on their language usage.
+                      Ignore capitalization mistakes.
                       """;
 
 
