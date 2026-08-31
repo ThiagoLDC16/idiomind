@@ -9,6 +9,7 @@ import type { Language } from '@/features/onboarding/api/onboarding-api/types';
 import { SUPPORTED_LEARNING_LANGUAGE_CODES } from '@/features/onboarding/constants';
 import { LanguagePicker } from '@/features/onboarding/components/LanguagePicker';
 import { authStore } from '@/features/auth/store/auth-store';
+import { SUPPORTED_I18N_LANGUAGE_CODES } from '@/i18n';
 import { Button } from '@/shared/components/Button';
 
 export default function SetupScreen() {
@@ -36,9 +37,11 @@ export default function SetupScreen() {
   const setSelected = currentStep.key === 'native' ? setNativeLanguage : setLearningLanguage;
 
   const availableLanguages =
-    currentStep.key === 'learning' && nativeLanguage
-      ? languages.filter((l) => l.code !== nativeLanguage)
-      : languages;
+    currentStep.key === 'native'
+      ? languages.filter((language) => SUPPORTED_I18N_LANGUAGE_CODES.includes(language.code))
+      : nativeLanguage
+        ? languages.filter((language) => language.code !== nativeLanguage)
+        : languages;
 
   const handleNext = async () => {
     if (!isLastStep) {

@@ -1,0 +1,103 @@
+const enUS = {
+  translation: {
+    internalError: 'An unexpected error occurred.',
+    invalidCredentials: 'Invalid email or password.',
+    emailAlreadyInUse: 'This email is already in use.',
+    userNotFound: 'User not found.',
+    login: {
+      subtitle: 'Welcome back!',
+      email: { label: 'Email', placeholder: 'Enter your email' },
+      password: { label: 'Password', placeholder: 'Enter your password' },
+      button: 'Login',
+      noAccount: "Don't have an account?",
+      signUp: 'Sign up',
+      validation: {
+        email: 'Please enter a valid email address',
+        password: 'Password must be at least 6 characters',
+      },
+    },
+    register: {
+      heading: 'Create Account',
+      subtitle: 'Join Cognilingo to start learning',
+      name: { label: 'Name', placeholder: 'Enter your name' },
+      email: { label: 'Email', placeholder: 'Enter your email' },
+      password: { label: 'Password', placeholder: 'Create a password' },
+      button: 'Sign Up',
+      hasAccount: 'Already have an account?',
+      logIn: 'Log in',
+      validation: {
+        name: 'Name must be at least 2 characters',
+        email: 'Please enter a valid email address',
+        password: 'Password must be at least 6 characters',
+      },
+    },
+    setup: {
+      step: 'Step {{current}} of {{total}}',
+      nativeLanguage: 'What is your native language?',
+      learningLanguage: 'What language do you want to practice?',
+      back: 'Back',
+      next: 'Next',
+      done: 'Finish',
+      searchLanguage: 'Search language...',
+    },
+    comingSoon: {
+      title: '{{language}} is coming! 🚀',
+      detail:
+        "We're calibrating our AI scenarios in {{language}}. We've registered your vote to prioritize the launch!",
+      hint: 'While we finish, how about experiencing our simulation dynamics in English?',
+      cta: 'Continue and try in English',
+    },
+    categories: {
+      title: 'Categories',
+      heading: 'Choose a Category',
+      subtitle: 'Practice real-life conversations',
+    },
+    simulation: {
+      translate: 'Translate',
+      finish: 'Finish',
+      started: 'Simulation Started',
+      grammarTip: 'Grammar Tip:',
+      inputPlaceholder: 'Type your response...',
+      finishConfirm: {
+        title: 'Finish Simulation',
+        message: 'Are you sure you want to finish this simulation?',
+        cancel: 'Cancel',
+        confirm: 'Finish',
+      },
+      completed: {
+        title: 'Simulation Completed',
+        subtitle: "Excellent effort! Here's how you did.",
+        grammar: 'Grammar',
+        vocabulary: 'Vocabulary',
+        fluency: 'Fluency',
+        context: 'Context',
+        spelling: 'Spelling',
+        nextSimulation: 'Next Simulation',
+        returnToDashboard: 'Return to Dashboard',
+        correct: '{{count}} correct',
+        withFeedback: '{{count}} with feedback',
+        perfectTitle: 'Perfect!',
+        perfectSubtitle: 'No corrections needed. Great job!',
+        improvementTitle: 'Areas to improve',
+        detailsTitle: 'See details',
+        correction: 'Correction',
+      },
+    },
+    variants: {
+      subtitle: 'Select a scenario variant to practice.',
+      objectives: 'Objectives',
+      startSimulation: 'Start Simulation',
+    },
+    sidebar: { logout: 'Log out' },
+    logout: {
+      dialog: {
+        title: 'Log out?',
+        message: 'You will be returned to the login screen.',
+        confirm: 'Log out',
+        cancel: 'Cancel',
+      },
+    },
+  },
+};
+
+export default enUS;

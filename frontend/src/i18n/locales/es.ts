@@ -1,0 +1,103 @@
+const es = {
+  translation: {
+    internalError: 'Ocurrió un error inesperado.',
+    invalidCredentials: 'Correo electrónico o contraseña no válidos.',
+    emailAlreadyInUse: 'Este correo electrónico ya está en uso.',
+    userNotFound: 'Usuario no encontrado.',
+    login: {
+      subtitle: '¡Bienvenido de nuevo!',
+      email: { label: 'Correo electrónico', placeholder: 'Ingresa tu correo electrónico' },
+      password: { label: 'Contraseña', placeholder: 'Ingresa tu contraseña' },
+      button: 'Iniciar sesión',
+      noAccount: '¿No tienes una cuenta?',
+      signUp: 'Regístrate',
+      validation: {
+        email: 'Ingresa un correo electrónico válido',
+        password: 'La contraseña debe tener al menos 6 caracteres',
+      },
+    },
+    register: {
+      heading: 'Crear cuenta',
+      subtitle: 'Únete a Cognilingo para comenzar a aprender',
+      name: { label: 'Nombre', placeholder: 'Ingresa tu nombre' },
+      email: { label: 'Correo electrónico', placeholder: 'Ingresa tu correo electrónico' },
+      password: { label: 'Contraseña', placeholder: 'Crea una contraseña' },
+      button: 'Registrarse',
+      hasAccount: '¿Ya tienes una cuenta?',
+      logIn: 'Iniciar sesión',
+      validation: {
+        name: 'El nombre debe tener al menos 2 caracteres',
+        email: 'Ingresa un correo electrónico válido',
+        password: 'La contraseña debe tener al menos 6 caracteres',
+      },
+    },
+    setup: {
+      step: 'Paso {{current}} de {{total}}',
+      nativeLanguage: '¿Cuál es tu idioma nativo?',
+      learningLanguage: '¿Qué idioma quieres practicar?',
+      back: 'Atrás',
+      next: 'Siguiente',
+      done: 'Finalizar',
+      searchLanguage: 'Buscar idioma...',
+    },
+    comingSoon: {
+      title: '¡{{language}} llegará pronto! 🚀',
+      detail:
+        'Estamos preparando nuestros escenarios de IA en {{language}}. ¡Hemos registrado tu voto para priorizar el lanzamiento!',
+      hint: 'Mientras tanto, ¿qué tal experimentar la dinámica de nuestras simulaciones en inglés?',
+      cta: 'Continuar y probar en inglés',
+    },
+    categories: {
+      title: 'Categorías',
+      heading: 'Elige una categoría',
+      subtitle: 'Practica conversaciones de la vida real',
+    },
+    simulation: {
+      translate: 'Traducir',
+      finish: 'Finalizar',
+      started: 'Simulación iniciada',
+      grammarTip: 'Consejo gramatical:',
+      inputPlaceholder: 'Escribe tu respuesta...',
+      finishConfirm: {
+        title: 'Finalizar simulación',
+        message: '¿Seguro que quieres finalizar esta simulación?',
+        cancel: 'Cancelar',
+        confirm: 'Finalizar',
+      },
+      completed: {
+        title: 'Simulación completada',
+        subtitle: '¡Excelente esfuerzo! Así te fue.',
+        grammar: 'Gramática',
+        vocabulary: 'Vocabulario',
+        fluency: 'Fluidez',
+        context: 'Contexto',
+        spelling: 'Ortografía',
+        nextSimulation: 'Siguiente simulación',
+        returnToDashboard: 'Volver al panel',
+        correct: '{{count}} correctas',
+        withFeedback: '{{count}} con comentarios',
+        perfectTitle: '¡Perfecto!',
+        perfectSubtitle: 'No se necesitan correcciones. ¡Excelente trabajo!',
+        improvementTitle: 'Áreas de mejora',
+        detailsTitle: 'Ver detalles',
+        correction: 'Corrección',
+      },
+    },
+    variants: {
+      subtitle: 'Selecciona una variante de escenario para practicar.',
+      objectives: 'Objetivos',
+      startSimulation: 'Iniciar simulación',
+    },
+    sidebar: { logout: 'Cerrar sesión' },
+    logout: {
+      dialog: {
+        title: '¿Cerrar sesión?',
+        message: 'Volverás a la pantalla de inicio de sesión.',
+        confirm: 'Cerrar sesión',
+        cancel: 'Cancelar',
+      },
+    },
+  },
+};
+
+export default es;

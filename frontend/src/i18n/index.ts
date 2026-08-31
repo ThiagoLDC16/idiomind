@@ -1,177 +1,45 @@
 import * as Localization from 'expo-localization';
-import i18n from 'i18next';
+import translationEngine from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-const resources = {
-  'en-US': {
-    translation: {
-      internalError: 'An unexpected error occurred.',
-      invalidCredentials: 'Invalid email or password.',
-      emailAlreadyInUse: 'This email is already in use.',
-      userNotFound: 'User not found.',
-      'login.subtitle': 'Welcome back!',
-      'login.email.label': 'Email',
-      'login.email.placeholder': 'Enter your email',
-      'login.password.label': 'Password',
-      'login.password.placeholder': 'Enter your password',
-      'login.button': 'Login',
-      'login.noAccount': "Don't have an account?",
-      'login.signUp': 'Sign up',
-      'login.validation.email': 'Please enter a valid email address',
-      'login.validation.password': 'Password must be at least 6 characters',
-      'register.heading': 'Create Account',
-      'register.subtitle': 'Join Cognilingo to start learning',
-      'register.name.label': 'Name',
-      'register.name.placeholder': 'Enter your name',
-      'register.email.label': 'Email',
-      'register.email.placeholder': 'Enter your email',
-      'register.password.label': 'Password',
-      'register.password.placeholder': 'Create a password',
-      'register.button': 'Sign Up',
-      'register.hasAccount': 'Already have an account?',
-      'register.logIn': 'Log in',
-      'register.validation.name': 'Name must be at least 2 characters',
-      'register.validation.email': 'Please enter a valid email address',
-      'register.validation.password': 'Password must be at least 6 characters',
-      'setup.step': 'Step {{current}} of {{total}}',
-      'setup.nativeLanguage': 'What is your native language?',
-      'setup.learningLanguage': 'What language do you want to practice?',
-      'setup.back': 'Back',
-      'setup.next': 'Next',
-      'setup.done': 'Finish',
-      'setup.searchLanguage': 'Search language...',
-      'comingSoon.title': '{{language}} is coming! 🚀',
-      'comingSoon.detail':
-        "We're calibrating our AI scenarios in {{language}}. We've registered your vote to prioritize the launch!",
-      'comingSoon.hint': 'While we finish, how about experiencing our simulation dynamics in English?',
-      'comingSoon.cta': 'Continue and try in English',
-      'categories.title': 'Categories',
-      'categories.heading': 'Choose a Category',
-      'categories.subtitle': 'Practice real-life conversations',
-      'simulation.translate': 'Translate',
-      'simulation.finish': 'Finish',
-      'simulation.started': 'Simulation Started',
-      'simulation.grammarTip': 'Grammar Tip:',
-      'simulation.inputPlaceholder': 'Type your response...',
-      'simulation.finishConfirm.title': 'Finish Simulation',
-      'simulation.finishConfirm.message': 'Are you sure you want to finish this simulation?',
-      'simulation.finishConfirm.cancel': 'Cancel',
-      'simulation.finishConfirm.confirm': 'Finish',
-      'simulation.completed.title': 'Simulation Completed',
-      'simulation.completed.subtitle': 'Excellent effort! Here\'s how you did.',
-      'simulation.completed.grammar': 'Grammar',
-      'simulation.completed.vocabulary': 'Vocabulary',
-      'simulation.completed.fluency': 'Fluency',
-      'simulation.completed.context': 'Context',
-      'simulation.completed.spelling': 'Spelling',
-      'simulation.completed.nextSimulation': 'Next Simulation',
-      'simulation.completed.returnToDashboard': 'Return to Dashboard',
-      'simulation.completed.correct': '{{count}} correct',
-      'simulation.completed.withFeedback': '{{count}} with feedback',
-      'simulation.completed.perfectTitle': 'Perfect!',
-      'simulation.completed.perfectSubtitle': 'No corrections needed. Great job!',
-      'simulation.completed.improvementTitle': 'Areas to improve',
-      'simulation.completed.detailsTitle': 'See details',
-      'simulation.completed.correction': 'Correction',
-      'variants.subtitle': 'Select a scenario variant to practice.',
-      'variants.objectives': 'Objectives',
-      'variants.startSimulation': 'Start Simulation',
-      'sidebar.logout': 'Log out',
-      'logout.dialog.title': 'Log out?',
-      'logout.dialog.message': 'You will be returned to the login screen.',
-      'logout.dialog.confirm': 'Log out',
-      'logout.dialog.cancel': 'Cancel',
-    },
-  },
-  'pt-BR': {
-    translation: {
-      internalError: 'Ocorreu um erro inesperado.',
-      invalidCredentials: 'Email ou senha inválidos.',
-      emailAlreadyInUse: 'Este email já está em uso.',
-      userNotFound: 'Usuário não encontrado.',
-      'login.subtitle': 'Bem-vindo de volta!',
-      'login.email.label': 'Email',
-      'login.email.placeholder': 'Digite seu email',
-      'login.password.label': 'Senha',
-      'login.password.placeholder': 'Digite sua senha',
-      'login.button': 'Entrar',
-      'login.noAccount': 'Não tem uma conta?',
-      'login.signUp': 'Cadastre-se',
-      'login.validation.email': 'Insira um endereço de email válido',
-      'login.validation.password': 'A senha deve ter pelo menos 6 caracteres',
-      'register.heading': 'Criar Conta',
-      'register.subtitle': 'Junte-se ao Cognilingo para começar a aprender',
-      'register.name.label': 'Nome',
-      'register.name.placeholder': 'Digite seu nome',
-      'register.email.label': 'Email',
-      'register.email.placeholder': 'Digite seu email',
-      'register.password.label': 'Senha',
-      'register.password.placeholder': 'Crie uma senha',
-      'register.button': 'Cadastrar',
-      'register.hasAccount': 'Já tem uma conta?',
-      'register.logIn': 'Entrar',
-      'register.validation.name': 'O nome deve ter pelo menos 2 caracteres',
-      'register.validation.email': 'Insira um endereço de email válido',
-      'register.validation.password': 'A senha deve ter pelo menos 6 caracteres',
-      'setup.step': 'Passo {{current}} de {{total}}',
-      'setup.nativeLanguage': 'Qual é o seu idioma nativo?',
-      'setup.learningLanguage': 'Qual idioma você quer praticar?',
-      'setup.back': 'Voltar',
-      'setup.next': 'Próximo',
-      'setup.done': 'Concluir',
-      'setup.searchLanguage': 'Buscar idioma...',
-      'comingSoon.title': '{{language}} está chegando! 🚀',
-      'comingSoon.detail':
-        'Estamos calibrando os cenários de IA em {{language}}. Registramos o seu voto para priorizar o lançamento!',
-      'comingSoon.hint': 'Enquanto finalizamos, que tal experimentar a dinâmica das nossas simulações em Inglês?',
-      'comingSoon.cta': 'Continuar e testar em Inglês',
-      'categories.title': 'Categorias',
-      'categories.heading': 'Escolha uma Categoria',
-      'categories.subtitle': 'Pratique conversas da vida real',
-      'simulation.translate': 'Traduzir',
-      'simulation.finish': 'Finalizar',
-      'simulation.started': 'Simulação Iniciada',
-      'simulation.grammarTip': 'Dica Gramatical:',
-      'simulation.inputPlaceholder': 'Digite sua resposta...',
-      'simulation.finishConfirm.title': 'Finalizar Simulação',
-      'simulation.finishConfirm.message': 'Tem certeza que deseja finalizar esta simulação?',
-      'simulation.finishConfirm.cancel': 'Cancelar',
-      'simulation.finishConfirm.confirm': 'Finalizar',
-      'simulation.completed.title': 'Simulação Concluída',
-      'simulation.completed.subtitle': 'Excelente esforço! Veja como você se saiu.',
-      'simulation.completed.grammar': 'Gramática',
-      'simulation.completed.vocabulary': 'Vocabulário',
-      'simulation.completed.fluency': 'Fluência',
-      'simulation.completed.context': 'Contexto',
-      'simulation.completed.spelling': 'Ortografia',
-      'simulation.completed.nextSimulation': 'Próxima Simulação',
-      'simulation.completed.returnToDashboard': 'Voltar ao Painel',
-      'simulation.completed.correct': '{{count}} corretas',
-      'simulation.completed.withFeedback': '{{count}} com feedback',
-      'simulation.completed.perfectTitle': 'Perfeito!',
-      'simulation.completed.perfectSubtitle': 'Nenhuma correção necessária. Excelente!',
-      'simulation.completed.improvementTitle': 'Pontos de melhoria',
-      'simulation.completed.detailsTitle': 'Ver detalhes',
-      'simulation.completed.correction': 'Correção',
-      'variants.subtitle': 'Selecione uma variante de cenário para praticar.',
-      'variants.objectives': 'Objetivos',
-      'variants.startSimulation': 'Iniciar Simulação',
-      'sidebar.logout': 'Sair',
-      'logout.dialog.title': 'Sair da conta?',
-      'logout.dialog.message': 'Você será redirecionado para a tela de login.',
-      'logout.dialog.confirm': 'Sair',
-      'logout.dialog.cancel': 'Cancelar',
-    },
-  },
+const DEFAULT_LANGUAGE_TAG = 'en-US';
+
+const localeLoaders = {
+  'en-US': () => import('./locales/en-US'),
+  'pt-BR': () => import('./locales/pt-BR'),
+  es: () => import('./locales/es'),
 };
 
-i18n.use(initReactI18next).init({
-  resources,
-  lng: Localization.getLocales()[0]?.languageTag ?? 'en-US',
-  fallbackLng: 'en',
-  interpolation: {
-    escapeValue: false,
-  },
-});
+type SupportedLanguageTag = keyof typeof localeLoaders;
 
-export default i18n;
+export const SUPPORTED_I18N_LANGUAGE_CODES = Object.keys(localeLoaders).map(
+  (languageTag) => languageTag.split('-')[0],
+);
+
+function getLanguageTag(): SupportedLanguageTag {
+  const locale = Localization.getLocales()[0];
+  const matchingLanguageTag = (Object.keys(localeLoaders) as SupportedLanguageTag[]).find(
+    (languageTag) => languageTag === locale?.languageTag || languageTag === locale?.languageCode,
+  );
+
+  return matchingLanguageTag ?? DEFAULT_LANGUAGE_TAG;
+}
+
+const languageTag = getLanguageTag();
+
+export const i18nReady = (async () => {
+  const resources = await localeLoaders[languageTag]();
+
+  // i18next registers React integration through its default instance.
+  // eslint-disable-next-line import/no-named-as-default-member
+  await translationEngine.use(initReactI18next).init({
+    resources: { [languageTag]: resources.default },
+    lng: languageTag,
+    fallbackLng: DEFAULT_LANGUAGE_TAG,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+})();
+
+export default translationEngine;
