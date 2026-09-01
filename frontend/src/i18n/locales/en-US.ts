@@ -73,7 +73,7 @@ const enUS = {
         context: 'Context',
         spelling: 'Spelling',
         nextSimulation: 'Next Simulation',
-        returnToDashboard: 'Return to Dashboard',
+        viewOtherSituations: 'View other situations',
         correct: '{{count}} correct',
         withFeedback: '{{count}} with feedback',
         perfectTitle: 'Perfect!',

@@ -58,6 +58,8 @@ export interface SimulationMessage {
 }
 
 export interface SimulationDetails {
+  situationId: string;
+  categoryId: string;
   name: string;
   learningLanguage: string;
   messages: SimulationMessage[];

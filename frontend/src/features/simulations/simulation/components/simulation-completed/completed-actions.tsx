@@ -4,10 +4,13 @@ import { Pressable, Text, View } from 'react-native';
 
 interface CompletedActionsProps {
   onNextSimulation: () => void;
-  onReturnToDashboard: () => void;
+  onViewOtherSituations: () => void;
 }
 
-export function CompletedActions({ onNextSimulation, onReturnToDashboard }: CompletedActionsProps) {
+export function CompletedActions({
+  onNextSimulation,
+  onViewOtherSituations,
+}: CompletedActionsProps) {
   const { t } = useTranslation();
 
   return (
@@ -24,12 +27,12 @@ export function CompletedActions({ onNextSimulation, onReturnToDashboard }: Comp
       </Pressable>
 
       <Pressable
-        onPress={onReturnToDashboard}
+        onPress={onViewOtherSituations}
         className="w-full rounded-xl py-4 items-center justify-center active:scale-[0.98]"
         style={{ borderCurve: 'continuous' }}
       >
         <Text className="text-sm font-medium tracking-wider text-md-primary">
-          {t('simulation.completed.returnToDashboard')}
+          {t('simulation.completed.viewOtherSituations')}
         </Text>
       </Pressable>
     </View>

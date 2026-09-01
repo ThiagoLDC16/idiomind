@@ -2,6 +2,8 @@ namespace Cognilingo.Application.Simulations.Queries.ListSimulationMessages;
 
 public sealed record ListSimulationMessagesDto
 {
+    public required Guid SituationId { get; init; }
+    public required Guid CategoryId { get; init; }
     public required string Name { get; init; }
     public required string LearningLanguage { get; init; }
     public required IEnumerable<ListSimulationMessageDto> Messages { get; init; }

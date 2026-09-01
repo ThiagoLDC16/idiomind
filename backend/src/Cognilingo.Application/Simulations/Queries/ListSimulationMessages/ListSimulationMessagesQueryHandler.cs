@@ -14,6 +14,11 @@ public sealed class ListSimulationMessagesQueryHandler(
             .Where(s => s.Id == request.SimulationId)
             .Select(s => new ListSimulationMessagesDto
             {
+                SituationId = s.SituationId,
+                CategoryId = context.Situations
+                    .Where(situation => situation.Id == s.SituationId)
+                    .Select(situation => situation.CategoryId)
+                    .First(),
                 Name = s.Variant.Translations
                     .Where(t => t.LanguageCode == request.LanguageCode)
                     .Select(t => t.Name)

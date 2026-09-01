@@ -73,7 +73,7 @@ const ptBR = {
         context: 'Contexto',
         spelling: 'Ortografia',
         nextSimulation: 'Próxima Simulação',
-        returnToDashboard: 'Voltar ao Painel',
+        viewOtherSituations: 'Ver outras situações',
         correct: '{{count}} corretas',
         withFeedback: '{{count}} com feedback',
         perfectTitle: 'Perfeito!',

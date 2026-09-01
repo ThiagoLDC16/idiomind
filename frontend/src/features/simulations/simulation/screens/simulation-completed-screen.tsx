@@ -4,7 +4,10 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, View } from 'react-native';
 
 import { simulationsApi } from '@/features/simulations/api/simulations-api';
-import type { SimulationMessage } from '@/features/simulations/api/simulations-api/types';
+import type {
+  SimulationDetails,
+  SimulationMessage,
+} from '@/features/simulations/api/simulations-api/types';
 
 import { CompletedActions } from '../components/simulation-completed/completed-actions';
 import { CompletedHeader } from '../components/simulation-completed/completed-header';
@@ -13,17 +16,33 @@ import { ImprovementChips } from '../components/simulation-completed/improvement
 import { StatsRow } from '../components/simulation-completed/stats-row';
 import { useSimulationStats } from '../hooks/use-simulation-stats';
 
-function SimulationCompletedContent({ messages }: { messages: SimulationMessage[] }) {
+interface SimulationCompletedContentProps {
+  messages: SimulationMessage[];
+  situationId: string;
+  categoryId: string;
+}
+
+function SimulationCompletedContent({
+  messages,
+  situationId,
+  categoryId,
+}: SimulationCompletedContentProps) {
   const router = useRouter();
   const stats = useSimulationStats(messages);
   const isPerfect = stats.withFeedbackCount === 0;
 
   const handleNextSimulation = () => {
-    router.dismissAll();
+    router.replace({
+      pathname: '/(app)/variants/[situationId]',
+      params: { situationId },
+    });
   };
 
-  const handleReturnToDashboard = () => {
-    router.dismissAll();
+  const handleViewOtherSituations = () => {
+    router.replace({
+      pathname: '/(app)/situations/[categoryId]',
+      params: { categoryId },
+    });
   };
 
   return (
@@ -43,7 +62,7 @@ function SimulationCompletedContent({ messages }: { messages: SimulationMessage[
 
       <CompletedActions
         onNextSimulation={handleNextSimulation}
-        onReturnToDashboard={handleReturnToDashboard}
+        onViewOtherSituations={handleViewOtherSituations}
       />
     </ScrollView>
   );
@@ -51,14 +70,14 @@ function SimulationCompletedContent({ messages }: { messages: SimulationMessage[
 
 export default function SimulationCompletedScreen() {
   const { simulationId } = useLocalSearchParams<{ simulationId: string }>();
-  const [messages, setMessages] = useState<SimulationMessage[] | null>(null);
+  const [simulation, setSimulation] = useState<SimulationDetails | null>(null);
 
   useEffect(() => {
     let cancelled = false;
     const languageCode = Localization.getLocales()[0]?.languageTag ?? 'en-US';
 
     simulationsApi.getSimulationMessages(simulationId, languageCode).then((simulation) => {
-      if (!cancelled) setMessages(simulation.messages);
+      if (!cancelled) setSimulation(simulation);
     });
     return () => {
       cancelled = true;
@@ -68,12 +87,16 @@ export default function SimulationCompletedScreen() {
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
-      {messages === null ? (
+      {simulation === null ? (
         <View className="flex-1 bg-md-background items-center justify-center">
           <ActivityIndicator size="large" color="#4343d5" />
         </View>
       ) : (
-        <SimulationCompletedContent messages={messages} />
+        <SimulationCompletedContent
+          messages={simulation.messages}
+          situationId={simulation.situationId}
+          categoryId={simulation.categoryId}
+        />
       )}
     </>
   );

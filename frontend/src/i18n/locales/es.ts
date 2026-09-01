@@ -73,7 +73,7 @@ const es = {
         context: 'Contexto',
         spelling: 'Ortografía',
         nextSimulation: 'Siguiente simulación',
-        returnToDashboard: 'Volver al panel',
+        viewOtherSituations: 'Ver otras situaciones',
         correct: '{{count}} correctas',
         withFeedback: '{{count}} con comentarios',
         perfectTitle: '¡Perfecto!',
