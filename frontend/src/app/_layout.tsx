@@ -7,24 +7,35 @@ import { useEffect, useState } from 'react';
 
 import { authApi } from '@/features/auth/api/auth-api';
 import { authStore } from '@/features/auth/store/auth-store';
-import { i18nReady } from '@/i18n';
+import { initializeI18n } from '@/i18n';
 import { storage } from '@/shared/utils/storage';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const isReady = authStore((state) => state.isReady);
+  const nativeLanguage = authStore((state) => state.user?.nativeLanguage);
   const [fontsLoaded] = useFonts({ PlusJakartaSans_700Bold });
   const [isI18nReady, setI18nReady] = useState(false);
 
   useEffect(() => {
-    i18nReady
-      .then(() => setI18nReady(true))
+    if (!isReady) return;
+
+    let isActive = true;
+
+    initializeI18n(nativeLanguage)
+      .then(() => {
+        if (isActive) setI18nReady(true);
+      })
       .catch((error) => {
         console.error('Failed to load translations during initialization:', error);
-        setI18nReady(true);
+        if (isActive) setI18nReady(true);
       });
-  }, []);
+
+    return () => {
+      isActive = false;
+    };
+  }, [isReady, nativeLanguage]);
 
   useEffect(() => {
     const restoreSession = async () => {

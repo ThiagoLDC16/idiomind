@@ -8,6 +8,7 @@ import { z } from 'zod';
 
 import { authApi } from '@/features/auth/api/auth-api';
 import { authStore } from '@/features/auth/store/auth-store';
+import { initializeI18n } from '@/i18n';
 import { Button } from '@/shared/components/Button';
 import { ControlledInput } from '@/shared/components/ControlledInput';
 
@@ -41,6 +42,7 @@ export default function LoginScreen() {
       authStore.getState().setTokens(tokens);
 
       const user = await authApi.getLoggedUser();
+      await initializeI18n(user.nativeLanguage);
       authStore.getState().setUser(user);
       router.replace(user.hasProfile ? '/(app)/' : '/(onboarding)/setup');
     } catch (e: any) {

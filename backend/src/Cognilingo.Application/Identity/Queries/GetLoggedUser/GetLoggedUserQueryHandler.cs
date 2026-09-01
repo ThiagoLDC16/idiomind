@@ -15,9 +15,11 @@ public sealed class GetLoggedUserQueryHandler(
 
         var userId = requestContext.UserId.Value;
 
-        var hasProfile = await context.UserProfiles
+        var nativeLanguage = await context.UserProfiles
             .AsNoTracking()
-            .AnyAsync(p => p.UserId == userId, cancellationToken);
+            .Where(p => p.UserId == userId)
+            .Select(p => p.NativeLanguage)
+            .FirstOrDefaultAsync(cancellationToken);
 
         var user = await context.Users
             .AsNoTracking()
@@ -26,7 +28,8 @@ public sealed class GetLoggedUserQueryHandler(
                 Id = u.Id,
                 Name = u.Name,
                 Email = u.Email,
-                HasProfile = hasProfile
+                HasProfile = nativeLanguage != null,
+                NativeLanguage = nativeLanguage
             })
             .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
 

@@ -1,15 +1,15 @@
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { authStore } from '@/features/auth/store/auth-store';
 import { onboardingApi } from '@/features/onboarding/api/onboarding-api';
 import type { Language } from '@/features/onboarding/api/onboarding-api/types';
-import { SUPPORTED_LEARNING_LANGUAGE_CODES } from '@/features/onboarding/constants';
 import { LanguagePicker } from '@/features/onboarding/components/LanguagePicker';
-import { authStore } from '@/features/auth/store/auth-store';
-import { SUPPORTED_I18N_LANGUAGE_CODES } from '@/i18n';
+import { SUPPORTED_LEARNING_LANGUAGE_CODES } from '@/features/onboarding/constants';
+import { initializeI18n, SUPPORTED_I18N_LANGUAGE_CODES } from '@/i18n';
 import { Button } from '@/shared/components/Button';
 
 export default function SetupScreen() {
@@ -51,7 +51,11 @@ export default function SetupScreen() {
 
     if (!nativeLanguage || !learningLanguage) return;
 
-    if (!SUPPORTED_LEARNING_LANGUAGE_CODES.includes(learningLanguage as typeof SUPPORTED_LEARNING_LANGUAGE_CODES[number])) {
+    if (
+      !SUPPORTED_LEARNING_LANGUAGE_CODES.includes(
+        learningLanguage as (typeof SUPPORTED_LEARNING_LANGUAGE_CODES)[number],
+      )
+    ) {
       const language = languages.find((l) => l.code === learningLanguage);
       router.push({
         pathname: '/(onboarding)/language-coming-soon',
@@ -63,9 +67,10 @@ export default function SetupScreen() {
     setIsSubmitting(true);
     try {
       await onboardingApi.createProfile({ nativeLanguage, learningLanguage });
+      await initializeI18n(nativeLanguage);
       const user = authStore.getState().user;
       if (user) {
-        authStore.getState().setUser({ ...user, hasProfile: true });
+        authStore.getState().setUser({ ...user, hasProfile: true, nativeLanguage });
       }
       router.replace('/(app)/');
     } catch (e) {
@@ -96,11 +101,7 @@ export default function SetupScreen() {
         </Text>
         <Text className="text-lg text-slate-600 mb-6">{currentStep.title}</Text>
 
-        <LanguagePicker
-          languages={availableLanguages}
-          selected={selected}
-          onSelect={setSelected}
-        />
+        <LanguagePicker languages={availableLanguages} selected={selected} onSelect={setSelected} />
 
         <View className="flex-row gap-3 mt-4">
           <Button

@@ -1,11 +1,12 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { onboardingApi } from '@/features/onboarding/api/onboarding-api';
 import { authStore } from '@/features/auth/store/auth-store';
+import { onboardingApi } from '@/features/onboarding/api/onboarding-api';
+import { initializeI18n } from '@/i18n';
 import { Button } from '@/shared/components/Button';
 
 export default function LanguageComingSoonScreen() {
@@ -23,9 +24,10 @@ export default function LanguageComingSoonScreen() {
     setIsSubmitting(true);
     try {
       await onboardingApi.createProfile({ nativeLanguage, learningLanguage: 'en' });
+      await initializeI18n(nativeLanguage);
       const user = authStore.getState().user;
       if (user) {
-        authStore.getState().setUser({ ...user, hasProfile: true });
+        authStore.getState().setUser({ ...user, hasProfile: true, nativeLanguage });
       }
       router.replace('/(app)/');
     } catch (e) {
@@ -46,9 +48,7 @@ export default function LanguageComingSoonScreen() {
           {t('comingSoon.detail', { language: languageName })}
         </Text>
 
-        <Text className="text-base text-slate-600 leading-6 mb-10">
-          {t('comingSoon.hint')}
-        </Text>
+        <Text className="text-base text-slate-600 leading-6 mb-10">{t('comingSoon.hint')}</Text>
 
         <Button
           title={t('comingSoon.cta')}
