@@ -69,7 +69,10 @@ export function ChatInput({
           multiline
           spellCheck
           maxLength={500}
-          style={{ maxHeight: 128 }}
+          style={{
+            maxHeight: 128,
+            ...(Platform.OS === 'web' ? { outlineStyle: 'none', outlineWidth: 0 } : {}),
+          }}
           editable={!isSending}
           onSubmitEditing={handleSend}
           blurOnSubmit={false}

@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { View } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -7,7 +8,6 @@ import Animated, {
   withDelay,
   withSequence,
 } from 'react-native-reanimated';
-import { View } from 'react-native';
 
 function Dot({ delay }: { delay: number }) {
   const opacity = useSharedValue(0.3);
@@ -16,10 +16,7 @@ function Dot({ delay }: { delay: number }) {
     opacity.value = withRepeat(
       withDelay(
         delay,
-        withSequence(
-          withTiming(1, { duration: 400 }),
-          withTiming(0.3, { duration: 400 }),
-        ),
+        withSequence(withTiming(1, { duration: 400 }), withTiming(0.3, { duration: 400 })),
       ),
       -1,
     );
@@ -31,8 +28,10 @@ function Dot({ delay }: { delay: number }) {
 
   return (
     <Animated.View
-      className="w-[6px] h-[6px] rounded-full bg-md-primary"
-      style={animatedStyle}
+      style={[
+        { width: 6, height: 6, borderRadius: 999, backgroundColor: '#4343d5' },
+        animatedStyle,
+      ]}
     />
   );
 }
