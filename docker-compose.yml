@@ -9,7 +9,8 @@ services:
     ports:
       - "5172:5172"
     environment:
-      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: Host=postgres;Database=idiomind;Username=postgres;Password=coglearn2026
     restart: unless-stopped
 
   postgres:
