@@ -2,7 +2,7 @@
 
 ## Product
 
-Cognilingo is a language-practice application built around realistic, AI-assisted conversations. It helps learners turn theoretical knowledge into confidence in situations such as immigration, restaurants, hotels, travel, and work. Read `docs/about-app.md` when product intent affects a decision.
+Idiomind is a language-practice application built around realistic, AI-assisted conversations. It helps learners turn theoretical knowledge into confidence in situations such as immigration, restaurants, hotels, travel, and work. Read `docs/about-app.md` when product intent affects a decision.
 
 ## Repository map
 
@@ -40,6 +40,6 @@ Frontend-specific skills remain under `frontend/.agents/skills/`; `frontend/AGEN
 
 - Match verification effort to the change and run commands from the directory whose tooling they use.
 - For frontend changes, available checks include `npm run lint`, `npx tsc --noEmit`, and `npm run format` from `frontend/`. A targeted Prettier check is acceptable for a small change when the repository-wide command reports unrelated files.
-- For backend changes, use `dotnet build Cognilingo.sln` from `backend/`, or build the narrowest affected project when isolating a failure.
+- For backend changes, use `dotnet build Idiomind.sln` from `backend/`, or build the narrowest affected project when isolating a failure.
 - For behavior that static checks cannot establish, describe and perform the smallest useful manual check when the environment permits it.
 - If a check fails because of a pre-existing or unrelated problem, identify that explicitly and show whether the change introduced any new failure. Never claim a check passed when it did not.

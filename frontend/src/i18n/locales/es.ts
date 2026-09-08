@@ -18,7 +18,7 @@ const es = {
     },
     register: {
       heading: 'Crear cuenta',
-      subtitle: 'Únete a Cognilingo para comenzar a aprender',
+      subtitle: 'Únete a Idiomind para comenzar a aprender',
       name: { label: 'Nombre', placeholder: 'Ingresa tu nombre' },
       email: { label: 'Correo electrónico', placeholder: 'Ingresa tu correo electrónico' },
       password: { label: 'Contraseña', placeholder: 'Crea una contraseña' },

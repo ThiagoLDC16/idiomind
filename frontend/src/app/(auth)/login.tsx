@@ -63,7 +63,7 @@ export default function LoginScreen() {
     >
       <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 24 }}>
         <View className="items-center mb-10">
-          <Text className="text-4xl font-extrabold text-blue-600 mb-2">Cognilingo</Text>
+          <Text className="text-4xl font-extrabold text-blue-600 mb-2">Idiomind</Text>
           <Text className="text-lg text-slate-500">{t('login.subtitle')}</Text>
         </View>
 

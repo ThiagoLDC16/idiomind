@@ -4,10 +4,10 @@
 
 The backend targets .NET 10 and is split into four projects under `src/`:
 
-- `Cognilingo.Domain`: entities, value objects, domain events, and business invariants.
-- `Cognilingo.Application`: MediatR commands and queries, use-case orchestration, validation, response contracts, and interfaces for external services.
-- `Cognilingo.Infrastructure`: EF Core/PostgreSQL persistence, identity, JWT, seeding, and OpenAI service implementations.
-- `Cognilingo.Api`: controllers, HTTP payloads, middleware pipeline, and composition root.
+- `Idiomind.Domain`: entities, value objects, domain events, and business invariants.
+- `Idiomind.Application`: MediatR commands and queries, use-case orchestration, validation, response contracts, and interfaces for external services.
+- `Idiomind.Infrastructure`: EF Core/PostgreSQL persistence, identity, JWT, seeding, and OpenAI service implementations.
+- `Idiomind.Api`: controllers, HTTP payloads, middleware pipeline, and composition root.
 
 Keep dependencies pointing inward. Domain code must not depend on EF Core, HTTP, JWT, or OpenAI implementations. Application code defines abstractions; Infrastructure implements them; API maps transport concerns to application use cases.
 
@@ -33,7 +33,7 @@ Keep dependencies pointing inward. Domain code must not depend on EF Core, HTTP,
 
 ## Verification
 
-- Run `dotnet build Cognilingo.sln` from `backend/` for a backend-wide change.
+- Run `dotnet build Idiomind.sln` from `backend/` for a backend-wide change.
 - When diagnosing a known solution-wide failure, build the narrowest affected project to distinguish new failures from the baseline.
 - Exercise an affected endpoint with the existing `.http` files or another focused manual request when behavior needs runtime verification and required services are available.
 - Do not add unit tests or test infrastructure unless the user explicitly asks for them.

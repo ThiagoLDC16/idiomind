@@ -2,17 +2,17 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS build
 
 WORKDIR /src
 
-COPY backend/Cognilingo.sln backend/
-COPY backend/src/Cognilingo.Api/Cognilingo.Api.csproj backend/src/Cognilingo.Api/
-COPY backend/src/Cognilingo.Application/Cognilingo.Application.csproj backend/src/Cognilingo.Application/
-COPY backend/src/Cognilingo.Domain/Cognilingo.Domain.csproj backend/src/Cognilingo.Domain/
-COPY backend/src/Cognilingo.Infrastructure/Cognilingo.Infrastructure.csproj backend/src/Cognilingo.Infrastructure/
+COPY backend/Idiomind.sln backend/
+COPY backend/src/Idiomind.Api/Idiomind.Api.csproj backend/src/Idiomind.Api/
+COPY backend/src/Idiomind.Application/Idiomind.Application.csproj backend/src/Idiomind.Application/
+COPY backend/src/Idiomind.Domain/Idiomind.Domain.csproj backend/src/Idiomind.Domain/
+COPY backend/src/Idiomind.Infrastructure/Idiomind.Infrastructure.csproj backend/src/Idiomind.Infrastructure/
 
-RUN dotnet restore backend/Cognilingo.sln
+RUN dotnet restore backend/Idiomind.sln
 
 COPY backend/ backend/
 
-RUN dotnet publish backend/src/Cognilingo.Api/Cognilingo.Api.csproj \
+RUN dotnet publish backend/src/Idiomind.Api/Idiomind.Api.csproj \
     --configuration Release \
     --output /app/publish \
     --no-restore \
@@ -29,4 +29,4 @@ COPY --from=build /app/publish .
 
 USER $APP_UID
 
-ENTRYPOINT ["dotnet", "Cognilingo.Api.dll"]
+ENTRYPOINT ["dotnet", "Idiomind.Api.dll"]

@@ -18,7 +18,7 @@ const ptBR = {
     },
     register: {
       heading: 'Criar Conta',
-      subtitle: 'Junte-se ao Cognilingo para começar a aprender',
+      subtitle: 'Junte-se ao Idiomind para começar a aprender',
       name: { label: 'Nome', placeholder: 'Digite seu nome' },
       email: { label: 'Email', placeholder: 'Digite seu email' },
       password: { label: 'Senha', placeholder: 'Crie uma senha' },

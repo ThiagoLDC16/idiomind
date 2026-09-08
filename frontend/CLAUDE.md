@@ -53,7 +53,7 @@ Side effects:
 - NEVER use section comments (e.g. `{/* Header */}`) to delimit UI blocks within a component. Extract them into named subcomponents instead so the render tree is self-documenting.
 
 # Project Context:
-Cognilingo is a mobile and web application for language learning through simulations of real-life situations using AI. In the future, there will be additional modules and learning styles.
+Idiomind is a mobile and web application for language learning through simulations of real-life situations using AI. In the future, there will be additional modules and learning styles.
 
 The project is being developed with Expo using expo-router, following a feature-based and shared structure.
 

@@ -1,4 +1,4 @@
-# Cognilingo Frontend
+# Idiomind Frontend
 
 Aplicativo Expo com Expo Router, NativeWind e fluxo de autenticação JWT.
 

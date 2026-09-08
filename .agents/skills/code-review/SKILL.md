@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Review a diff, branch, pull request, or selected files for concrete defects and regressions in Cognilingo. Use when the user asks for a review or audit; remain read-only unless fixes are separately requested.
+description: Review a diff, branch, pull request, or selected files for concrete defects and regressions in Idiomind. Use when the user asks for a review or audit; remain read-only unless fixes are separately requested.
 ---
 
 # Code review

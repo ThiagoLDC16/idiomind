@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: backend/Dockerfile
-    container_name: cognilingo-api
+    container_name: idiomind-api
     depends_on:
       - postgres
     ports:
@@ -14,9 +14,9 @@ services:
 
   postgres:
     image: postgres:16
-    container_name: cognilingo-postgres
+    container_name: idiomind-postgres
     environment:
-      POSTGRES_DB: cognilingo
+      POSTGRES_DB: idiomind
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: coglearn2026
     ports:

@@ -9,7 +9,7 @@ Reference for creating new content seed migrations in this project.
 Always use a dedicated migration for seed data — never mix schema changes with seed inserts.
 
 ```bash
-dotnet ef migrations add Seed_<DescriptiveName> --project src/Cognilingo.Infrastructure
+dotnet ef migrations add Seed_<DescriptiveName> --project src/Idiomind.Infrastructure
 ```
 
 ---
@@ -65,7 +65,7 @@ var variantId   = ContentId.From("my-situation-variant");
 
 ## 4. Inserting entities
 
-Use the extension methods from `Cognilingo.Infrastructure.Seeding.Extensions`. Always use **named parameters**.
+Use the extension methods from `Idiomind.Infrastructure.Seeding.Extensions`. Always use **named parameters**.
 
 ### Category
 

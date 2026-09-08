@@ -1,8 +1,8 @@
-# Entidades de Configuração de Simulações — Cognilingo
+# Entidades de Configuração de Simulações — Idiomind
 
 ## Visão Geral
 
-O Cognilingo organiza seu conteúdo em uma hierarquia de quatro níveis: **Category → Situation → SituationVariant → SituationVariantObjective**. Todas essas entidades suportam múltiplos idiomas via um padrão de tradução consistente.
+O Idiomind organiza seu conteúdo em uma hierarquia de quatro níveis: **Category → Situation → SituationVariant → SituationVariantObjective**. Todas essas entidades suportam múltiplos idiomas via um padrão de tradução consistente.
 
 ---
 

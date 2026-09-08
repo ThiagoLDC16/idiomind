@@ -18,7 +18,7 @@ const enUS = {
     },
     register: {
       heading: 'Create Account',
-      subtitle: 'Join Cognilingo to start learning',
+      subtitle: 'Join Idiomind to start learning',
       name: { label: 'Name', placeholder: 'Enter your name' },
       email: { label: 'Email', placeholder: 'Enter your email' },
       password: { label: 'Password', placeholder: 'Create a password' },

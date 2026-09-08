@@ -1,0 +1,31 @@
+// Global using directives
+
+global using System.Text;
+global using Idiomind.Api.Common.Controllers;
+global using Idiomind.Api.Simulations.Payloads;
+global using Idiomind.Application.Common.Responses.Base;
+global using Idiomind.Application.Identity.Commands.CreateProfile;
+global using Idiomind.Application.Identity.Commands.Login;
+global using Idiomind.Application.Identity.Commands.Logout;
+global using Idiomind.Application.Identity.Commands.RefreshTokens;
+global using Idiomind.Application.Identity.Commands.Register;
+global using Idiomind.Application.Identity.Queries.GetLanguages;
+global using Idiomind.Application.Identity.Queries.GetLoggedUser;
+global using Idiomind.Application.Simulations.Commands.SendMessage;
+global using Idiomind.Application.Simulations.Commands.TranslateMessage;
+global using Idiomind.Application.Simulations.Commands.FinishSimulation;
+global using Idiomind.Application.Simulations.Commands.StartSimulation;
+global using Idiomind.Application.Simulations.Queries.ListCategories;
+global using Idiomind.Application.Simulations.Queries.ListSituations;
+global using Idiomind.Application.Simulations.Queries.ListSituationVariants;
+global using Idiomind.Application.Simulations.Queries.ListSimulationMessages;
+global using Idiomind.Infrastructure.Common.Persistence;
+global using Idiomind.Infrastructure.Identity.Options;
+global using MediatR;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.IdentityModel.Tokens;
+global using NSwag;
+global using NSwag.Generation.Processors.Security;

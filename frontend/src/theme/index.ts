@@ -1,5 +1,5 @@
 /**
- * Material Design 3 color tokens for the Cognilingo app.
+ * Material Design 3 color tokens for the Idiomind app.
  * Source of truth for all color usage across screens and components.
  */
 export const COLORS = {
