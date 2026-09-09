@@ -20,8 +20,6 @@ export default function RootLayout() {
   const nativeLanguage = authStore((state) => state.user?.nativeLanguage);
   const [fontsLoaded, fontError] = useFonts({
     PlusJakartaSans_700Bold: require('../../assets/fonts/PlusJakartaSans_700Bold.ttf'),
-    MaterialIcons: require('../../assets/fonts/MaterialIcons.ttf'),
-    Ionicons: require('../../assets/fonts/Ionicons.ttf'),
   });
   const [isI18nReady, setI18nReady] = useState(false);
   const fontsReady = fontsLoaded || fontError != null;
