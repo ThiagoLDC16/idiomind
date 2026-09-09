@@ -1,22 +1,28 @@
 import '../global.css';
 
-import { PlusJakartaSans_700Bold, useFonts } from '@expo-google-fonts/plus-jakarta-sans';
+import { useFonts } from 'expo-font';
 import { Slot } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
+import { Platform, Text, View } from 'react-native';
 
 import { authApi } from '@/features/auth/api/auth-api';
 import { authStore } from '@/features/auth/store/auth-store';
 import { initializeI18n } from '@/i18n';
 import { storage } from '@/shared/utils/storage';
 
-SplashScreen.preventAutoHideAsync();
+if (Platform.OS !== 'web') {
+  SplashScreen.preventAutoHideAsync();
+}
 
 export default function RootLayout() {
   const isReady = authStore((state) => state.isReady);
   const nativeLanguage = authStore((state) => state.user?.nativeLanguage);
-  const [fontsLoaded] = useFonts({ PlusJakartaSans_700Bold });
+  const [fontsLoaded, fontError] = useFonts({
+    PlusJakartaSans_700Bold: require('../../assets/fonts/PlusJakartaSans_700Bold.ttf'),
+  });
   const [isI18nReady, setI18nReady] = useState(false);
+  const fontsReady = fontsLoaded || fontError != null;
 
   useEffect(() => {
     if (!isReady) return;
@@ -64,13 +70,17 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
-    if (isReady && fontsLoaded && isI18nReady) {
-      SplashScreen.hideAsync();
+    if (Platform.OS !== 'web' && isReady && fontsReady && isI18nReady) {
+      void SplashScreen.hideAsync();
     }
-  }, [isReady, fontsLoaded, isI18nReady]);
+  }, [isReady, fontsReady, isI18nReady]);
 
-  if (!isReady || !fontsLoaded || !isI18nReady) {
-    return null;
+  if (!isReady || !fontsReady || !isI18nReady) {
+    return (
+      <View className="flex-1 items-center justify-center bg-white">
+        <Text className="text-2xl font-bold text-blue-600">Idiomind</Text>
+      </View>
+    );
   }
 
   return <Slot />;
