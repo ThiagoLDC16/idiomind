@@ -43,13 +43,17 @@ builder.Services.AddOpenApiDocument(settings =>
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await context.Database.MigrateAsync();
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseOpenApi();
     app.UseSwaggerUi();
-
-    await app.SeedDataAsync();
 }
 
 app.UseHttpsRedirection();
