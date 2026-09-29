@@ -35,4 +35,11 @@ public class SimulationsController(IMediator _mediator) : BaseController
     [HttpPost("{id:guid}/finish")]
     public async Task<IActionResult> FinishSimulation(Guid id)
         => MapResponse(await _mediator.Send(new FinishSimulationCommand(id)));
+
+    [HttpPost("{id:guid}/feedback")]
+    public async Task<IActionResult> SubmitSimulationFeedback(
+        Guid id,
+        [FromBody] SubmitSimulationFeedbackPayload payload
+    )
+        => MapResponse(await _mediator.Send(payload.AsCommand(id)));
 }

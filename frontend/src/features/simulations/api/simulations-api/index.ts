@@ -6,6 +6,7 @@ import type {
   SimulationDetails,
   SimulationMessage,
   SituationDetails,
+  SubmitSimulationFeedbackRequest,
   TranslateMessageResponse,
 } from './types';
 
@@ -63,5 +64,9 @@ export const simulationsApi = {
 
   async finishSimulation(simulationId: string) {
     await apiClient.post(`/api/simulations/${simulationId}/finish`);
+  },
+
+  async submitSimulationFeedback(simulationId: string, feedback: SubmitSimulationFeedbackRequest) {
+    await apiClient.post(`/api/simulations/${simulationId}/feedback`, feedback);
   },
 };

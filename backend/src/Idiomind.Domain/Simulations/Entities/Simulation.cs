@@ -8,6 +8,7 @@ public sealed class Simulation : AggregateRoot
     public SituationVariant Variant { get; private set; } = null!;
     public SimulationStatus Status { get; private set; }
     public DateTime? CompletedAt { get; private set; }
+    public SimulationFeedback? Feedback { get; private set; }
 
     private readonly List<SimulationMessage> _messages = new();
     public IReadOnlyCollection<SimulationMessage> Messages => _messages;

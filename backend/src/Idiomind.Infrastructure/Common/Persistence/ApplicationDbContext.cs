@@ -13,6 +13,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<SituationVariant> SituationVariants => Set<SituationVariant>();
     public DbSet<SituationVariantObjective> SituationVariantObjectives => Set<SituationVariantObjective>();
     public DbSet<Simulation> Simulations => Set<Simulation>();
+    public DbSet<SimulationFeedback> SimulationFeedbacks => Set<SimulationFeedback>();
     public DbSet<UserProfile> UserProfiles => Set<UserProfile>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

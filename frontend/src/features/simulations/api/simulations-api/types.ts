@@ -65,6 +65,20 @@ export interface SimulationDetails {
   messages: SimulationMessage[];
 }
 
+export enum SimulationFeedbackPreparedness {
+  No = 0,
+  ALittle = 1,
+  Yes = 2,
+  VeryMuch = 3,
+}
+
+export interface SubmitSimulationFeedbackRequest {
+  experienceRating: number | null;
+  preparedness: SimulationFeedbackPreparedness | null;
+  improvement: string | null;
+  skipped: boolean;
+}
+
 export interface TranslateMessageResponse {
   translatedContent: string;
 }

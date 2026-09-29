@@ -169,6 +169,53 @@ namespace Idiomind.Infrastructure.Migrations
                     b.ToTable("simulations", (string)null);
                 });
 
+            modelBuilder.Entity("Idiomind.Domain.Simulations.Entities.SimulationFeedback", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("ExperienceRating")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Improvement")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<int?>("Preparedness")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("SimulationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("SimulationId1")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("Skipped")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SimulationId")
+                        .IsUnique();
+
+                    b.HasIndex("SimulationId1")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("simulation_feedback", (string)null);
+                });
+
             modelBuilder.Entity("Idiomind.Domain.Simulations.Entities.SimulationMessage", b =>
                 {
                     b.Property<Guid>("Id")
@@ -481,6 +528,27 @@ namespace Idiomind.Infrastructure.Migrations
                     b.Navigation("Variant");
                 });
 
+            modelBuilder.Entity("Idiomind.Domain.Simulations.Entities.SimulationFeedback", b =>
+                {
+                    b.HasOne("Idiomind.Domain.Simulations.Entities.Simulation", "Simulation")
+                        .WithOne()
+                        .HasForeignKey("Idiomind.Domain.Simulations.Entities.SimulationFeedback", "SimulationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Idiomind.Domain.Simulations.Entities.Simulation", null)
+                        .WithOne("Feedback")
+                        .HasForeignKey("Idiomind.Domain.Simulations.Entities.SimulationFeedback", "SimulationId1");
+
+                    b.HasOne("Idiomind.Domain.Identity.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Simulation");
+                });
+
             modelBuilder.Entity("Idiomind.Domain.Simulations.Entities.SimulationMessage", b =>
                 {
                     b.HasOne("Idiomind.Domain.Simulations.Entities.Simulation", null)
@@ -594,6 +662,8 @@ namespace Idiomind.Infrastructure.Migrations
 
             modelBuilder.Entity("Idiomind.Domain.Simulations.Entities.Simulation", b =>
                 {
+                    b.Navigation("Feedback");
+
                     b.Navigation("Messages");
                 });
 

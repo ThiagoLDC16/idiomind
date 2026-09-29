@@ -14,15 +14,23 @@ import { CompletedHeader } from '../components/simulation-completed/completed-he
 import { FeedbackDetails } from '../components/simulation-completed/feedback-details';
 import { ImprovementChips } from '../components/simulation-completed/improvement-chips';
 import { StatsRow } from '../components/simulation-completed/stats-row';
+import {
+  SimulationFeedbackForm,
+  type SimulationFeedbackFormValue,
+} from '../components/simulation-feedback/simulation-feedback-form';
+import { SimulationFeedbackSuccess } from '../components/simulation-feedback/simulation-feedback-success';
+import { useSimulationFeedback } from '../hooks/use-simulation-feedback';
 import { useSimulationStats } from '../hooks/use-simulation-stats';
 
 interface SimulationCompletedContentProps {
+  simulationId: string;
   messages: SimulationMessage[];
   situationId: string;
   categoryId: string;
 }
 
 function SimulationCompletedContent({
+  simulationId,
   messages,
   situationId,
   categoryId,
@@ -30,6 +38,13 @@ function SimulationCompletedContent({
   const router = useRouter();
   const stats = useSimulationStats(messages);
   const isPerfect = stats.withFeedbackCount === 0;
+  const [feedback, setFeedback] = useState<SimulationFeedbackFormValue>({
+    experienceRating: null,
+    preparedness: null,
+    improvement: '',
+    skipped: false,
+  });
+  const feedbackSubmission = useSimulationFeedback(simulationId);
 
   const handleNextSimulation = () => {
     router.replace({
@@ -58,6 +73,19 @@ function SimulationCompletedContent({
         <ImprovementChips categories={stats.categories} />
 
         <FeedbackDetails messages={stats.feedbackMessages} />
+
+        {feedbackSubmission.isSubmitted && !feedbackSubmission.wasSkipped ? (
+          <SimulationFeedbackSuccess />
+        ) : feedbackSubmission.isSubmitted ? null : (
+          <SimulationFeedbackForm
+            value={feedback}
+            isSubmitting={feedbackSubmission.isSubmitting}
+            error={feedbackSubmission.error}
+            onChange={setFeedback}
+            onSubmit={() => feedbackSubmission.submitFeedback({ ...feedback, skipped: false })}
+            onSkip={() => feedbackSubmission.submitFeedback({ ...feedback, skipped: true })}
+          />
+        )}
       </View>
 
       <CompletedActions
@@ -93,6 +121,7 @@ export default function SimulationCompletedScreen() {
         </View>
       ) : (
         <SimulationCompletedContent
+          simulationId={simulationId}
           messages={simulation.messages}
           situationId={simulation.situationId}
           categoryId={simulation.categoryId}

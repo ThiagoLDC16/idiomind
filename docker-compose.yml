@@ -6,6 +6,8 @@ services:
     container_name: idiomind-api
     depends_on:
       - postgres
+    env_file:
+      - ./backend/src/Idiomind.Api/.env
     ports:
       - "5172:5172"
     environment:
