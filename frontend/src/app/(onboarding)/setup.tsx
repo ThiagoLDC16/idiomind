@@ -10,6 +10,7 @@ import type { Language } from '@/features/onboarding/api/onboarding-api/types';
 import { LanguagePicker } from '@/features/onboarding/components/LanguagePicker';
 import { SUPPORTED_LEARNING_LANGUAGE_CODES } from '@/features/onboarding/constants';
 import { initializeI18n, SUPPORTED_I18N_LANGUAGE_CODES } from '@/i18n';
+import { analytics } from '@/shared/analytics';
 import { Button } from '@/shared/components/Button';
 
 export default function SetupScreen() {
@@ -57,6 +58,12 @@ export default function SetupScreen() {
       )
     ) {
       const language = languages.find((l) => l.code === learningLanguage);
+      analytics.track('Unavailable Language Selected', {
+        language_code: learningLanguage,
+        language_name: language?.name ?? learningLanguage,
+        native_language_code: nativeLanguage,
+        source: 'onboarding',
+      });
       router.push({
         pathname: '/(onboarding)/language-coming-soon',
         params: { languageName: language?.name ?? learningLanguage, nativeLanguage },

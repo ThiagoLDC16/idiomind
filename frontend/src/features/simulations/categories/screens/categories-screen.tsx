@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 
 import type { Category } from '@/features/simulations/api/simulations-api/types';
+import { analytics } from '@/shared/analytics';
 
 import { CategoriesHeader } from '../components/categories-header';
 import { CategoryGrid } from '../components/category-grid';
@@ -14,6 +15,11 @@ export default function CategoriesScreen() {
   const { categories, isLoading, error } = useCategories();
 
   const handleCategoryPress = (category: Category) => {
+    analytics.track('Category Selected', {
+      category_id: category.id,
+      category_name: category.name,
+      content_language_code: category.languageCode,
+    });
     router.push({
       pathname: '/(app)/situations/[categoryId]',
       params: { categoryId: category.id },

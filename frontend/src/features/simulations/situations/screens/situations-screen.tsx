@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 
 import type { Situation } from '@/features/simulations/api/simulations-api/types';
+import { analytics } from '@/shared/analytics';
 
 import { SituationList } from '../components/situation-list';
 import { useSituations } from '../hooks/use-situations';
@@ -14,6 +15,13 @@ export default function SituationsScreen() {
   const { name, situations, isLoading, error } = useSituations(categoryId);
 
   const handleSituationPress = (situation: Situation) => {
+    analytics.track('Situation Selected', {
+      situation_id: situation.id,
+      situation_name: situation.name,
+      category_id: categoryId,
+      category_name: name,
+      content_language_code: situation.languageCode,
+    });
     router.push({
       pathname: '/(app)/variants/[situationId]',
       params: { situationId: situation.id },

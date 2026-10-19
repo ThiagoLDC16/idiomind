@@ -9,6 +9,7 @@ import { Platform, Text, View } from 'react-native';
 import { authApi } from '@/features/auth/api/auth-api';
 import { authStore } from '@/features/auth/store/auth-store';
 import { initializeI18n } from '@/i18n';
+import { useAnalyticsLifecycle } from '@/shared/analytics';
 import { storage } from '@/shared/utils/storage';
 
 if (Platform.OS !== 'web') {
@@ -17,12 +18,15 @@ if (Platform.OS !== 'web') {
 
 export default function RootLayout() {
   const isReady = authStore((state) => state.isReady);
+  const userId = authStore((state) => state.user?.id ?? null);
   const nativeLanguage = authStore((state) => state.user?.nativeLanguage);
   const [fontsLoaded, fontError] = useFonts({
     PlusJakartaSans_700Bold: require('../../assets/fonts/PlusJakartaSans_700Bold.ttf'),
   });
   const [isI18nReady, setI18nReady] = useState(false);
   const fontsReady = fontsLoaded || fontError != null;
+
+  useAnalyticsLifecycle(userId, isReady);
 
   useEffect(() => {
     if (!isReady) return;
